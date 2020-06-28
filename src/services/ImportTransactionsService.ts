@@ -92,16 +92,16 @@ class ImportTransactionsService {
 
     const transactions: Transaction[] = [];
 
-    transactionsCSV.transactions.forEach(async transaction => {
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const transaction of transactionsCSV.transactions) {
       const newTransaction = await createTransactionService.execute({
         category: transaction.category,
         title: transaction.title,
         type: transaction.type,
         value: transaction.value,
       });
-
       transactions.push(newTransaction);
-    });
+    }
 
     return transactions;
   }
