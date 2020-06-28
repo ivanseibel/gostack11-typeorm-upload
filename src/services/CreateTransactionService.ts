@@ -24,6 +24,17 @@ class CreateTransactionService {
       throw new AppError('Type must be income or outcome');
     }
 
+    const transactionsRepository = getCustomRepository(TransactionsRepository);
+
+    if (type === 'outcome') {
+      const balance = await transactionsRepository.getBalance();
+      if (balance.total - value < 0) {
+        throw new AppError(
+          `Invalid transaction. Actual balance: ${balance.total}`,
+        );
+      }
+    }
+
     const categoriesRepository = getRepository(Category);
 
     let getCategory = await categoriesRepository.findOne({
@@ -37,8 +48,6 @@ class CreateTransactionService {
 
       await categoriesRepository.save(getCategory);
     }
-
-    const transactionsRepository = getCustomRepository(TransactionsRepository);
 
     const transaction = transactionsRepository.create({
       title,
