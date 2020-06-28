@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('categories')
 class Category {
@@ -8,10 +13,10 @@ class Category {
   @Column('varchar')
   title: string;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   updated_at: Date;
 }
 

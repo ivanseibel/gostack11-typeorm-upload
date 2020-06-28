@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import Category from './Category';
 
@@ -12,26 +13,26 @@ class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar')
+  @Column()
   title: string;
 
-  @Column('varchar')
+  @Column()
   type: 'income' | 'outcome';
 
-  @Column('numeric')
+  @Column()
   value: number;
 
-  @Column('varchar')
+  @Column()
   category_id: string;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   updated_at: Date;
 }
 
