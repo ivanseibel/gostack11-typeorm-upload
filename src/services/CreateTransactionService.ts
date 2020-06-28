@@ -3,11 +3,12 @@
 import { getRepository } from 'typeorm';
 import Transaction from '../models/Transaction';
 import Category from '../models/Category';
+import AppError from '../errors/AppError';
 
 interface Request {
   title: string;
   value: number;
-  type: 'income' | 'outcome';
+  type: string;
   category: string;
 }
 
@@ -18,6 +19,10 @@ class CreateTransactionService {
     type,
     category,
   }: Request): Promise<Transaction> {
+    if (!['income', 'outcome'].includes(type)) {
+      throw new AppError('Type must be income or outcome');
+    }
+
     const categoriesRepository = getRepository(Category);
 
     const categoryExists = await categoriesRepository.findOne({
