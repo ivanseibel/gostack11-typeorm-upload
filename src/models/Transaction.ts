@@ -26,7 +26,7 @@ class Transaction {
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
-  provider: Category;
+  category: Category;
 
   @Column('timestamp')
   created_at: Date;
